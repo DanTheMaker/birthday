@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dan's Birthday</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f5e6c8;
+      color: #2c2c2c;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* Hero */
+    .hero {
+      background: linear-gradient(160deg, #3a9bd5 0%, #1a6fa3 50%, #f97316 100%);
+      color: #fff;
+      text-align: center;
+      padding: 80px 24px 120px;
+      position: relative;
+    }
+
+    .hero h1 {
+      font-family: 'Pacifico', cursive;
+      font-size: clamp(2.4rem, 8vw, 5rem);
+      text-shadow: 2px 4px 12px rgba(0,0,0,0.25);
+      margin-bottom: 12px;
+    }
+
+    .hero .subtitle {
+      font-size: clamp(1rem, 3vw, 1.4rem);
+      opacity: 0.92;
+      letter-spacing: 0.02em;
+    }
+
+    /* Wave divider */
+    .wave {
+      display: block;
+      width: 100%;
+      overflow: hidden;
+      line-height: 0;
+      margin-top: -2px;
+    }
+    .wave svg { display: block; width: 100%; height: 80px; }
+
+    /* Main content */
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 24px 60px;
+      gap: 32px;
+    }
+
+    /* Details card */
+    .card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 36px 40px;
+      max-width: 480px;
+      width: 100%;
+      box-shadow: 0 8px 30px rgba(58,155,213,0.15);
+      border-top: 5px solid #3a9bd5;
+      text-align: center;
+    }
+
+    .card .detail-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+      font-size: 1.1rem;
+    }
+    .card .detail-row:last-child { margin-bottom: 0; }
+    .card .icon {
+      font-size: 1.6rem;
+      flex-shrink: 0;
+    }
+    .card .label { font-weight: 600; color: #1a6fa3; min-width: 60px; text-align: left; }
+    .card .value { text-align: left; }
+
+    /* Tagline */
+    .tagline {
+      font-family: 'Pacifico', cursive;
+      font-size: clamp(1.4rem, 5vw, 2.2rem);
+      color: #f97316;
+      text-align: center;
+      text-shadow: 1px 2px 6px rgba(0,0,0,0.08);
+    }
+
+    /* Registry button */
+    .registry-btn {
+      display: inline-block;
+      background: #3a9bd5;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 14px 32px;
+      border-radius: 50px;
+      text-decoration: none;
+      box-shadow: 0 4px 16px rgba(58,155,213,0.4);
+      transition: background 0.2s, transform 0.15s;
+    }
+    .registry-btn:hover { background: #1a6fa3; transform: translateY(-2px); }
+
+    /* Bottom waves */
+    .wave-footer {
+      position: relative;
+      height: 120px;
+      overflow: hidden;
+      margin-top: auto;
+    }
+    .wave-footer svg {
+      position: absolute;
+      bottom: 0;
+      width: 200%;
+      animation: wave-slide 6s linear infinite;
+    }
+    .wave-footer svg.wave2 {
+      opacity: 0.5;
+      animation-duration: 9s;
+      animation-direction: reverse;
+    }
+    @keyframes wave-slide {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    footer {
+      background: #1a6fa3;
+      color: #e0f0ff;
+      text-align: center;
+      padding: 18px 24px;
+      font-family: 'Pacifico', cursive;
+      font-size: 1.1rem;
+    }
+
+    /* Confetti canvas */
+    #confetti { position: fixed; top: 0; left: 0; pointer-events: none; z-index: 999; }
+  </style>
+</head>
+<body>
+
+<canvas id="confetti"></canvas>
+
+<header class="hero">
+  <h1>Dan's Birthday!</h1>
+  <p class="subtitle">You're invited — come celebrate</p>
+</header>
+
+<div class="wave">
+  <svg viewBox="0 0 1200 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C200,80 400,0 600,40 C800,80 1000,0 1200,40 L1200,80 L0,80 Z" fill="#f5e6c8"/>
+  </svg>
+</div>
+
+<main>
+  <div class="card">
+    <div class="detail-row">
+      <span class="icon">📅</span>
+      <span class="label">Date</span>
+      <span class="value">Thursday 21 May</span>
+    </div>
+    <div class="detail-row">
+      <span class="icon">🕖</span>
+      <span class="label">Time</span>
+      <span class="value">7pm onwards</span>
+    </div>
+    <div class="detail-row">
+      <span class="icon">📍</span>
+      <span class="label">Venue</span>
+      <span class="value">Curly Lewis, Bondi</span>
+    </div>
+  </div>
+
+  <p class="tagline">Drinks will be flowing!</p>
+
+  <a href="registry.html" class="registry-btn">View Gift Registry →</a>
+</main>
+
+<div class="wave-footer">
+  <svg viewBox="0 0 1440 120" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,120 L0,120 Z" fill="#3a9bd5" opacity="0.6"/>
+  </svg>
+  <svg class="wave2" viewBox="0 0 1440 120" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,60 C240,0 480,120 720,60 C960,0 1200,120 1440,60 L1440,120 L0,120 Z" fill="#1a6fa3" opacity="0.4"/>
+  </svg>
+</div>
+
+<footer>See you there 🤙</footer>
+
+<script>
+  // Confetti burst on load
+  const canvas = document.getElementById('confetti');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const colors = ['#3a9bd5','#f97316','#f5e6c8','#fff','#1a6fa3','#ffd700'];
+  const pieces = Array.from({length: 120}, () => ({
+    x: Math.random() * canvas.width,
+    y: Math.random() * -canvas.height,
+    r: Math.random() * 7 + 3,
+    c: colors[Math.floor(Math.random() * colors.length)],
+    vx: (Math.random() - 0.5) * 3,
+    vy: Math.random() * 4 + 2,
+    angle: Math.random() * Math.PI * 2,
+    spin: (Math.random() - 0.5) * 0.2,
+    alpha: 1
+  }));
+
+  let frame = 0;
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    pieces.forEach(p => {
+      p.x += p.vx; p.y += p.vy; p.angle += p.spin;
+      if (frame > 80) p.alpha -= 0.012;
+      ctx.save();
+      ctx.globalAlpha = Math.max(0, p.alpha);
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.angle);
+      ctx.fillStyle = p.c;
+      ctx.fillRect(-p.r, -p.r / 2, p.r * 2, p.r);
+      ctx.restore();
+    });
+    frame++;
+    if (pieces.some(p => p.alpha > 0)) requestAnimationFrame(draw);
+    else ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+  draw();
+</script>
+</body>
+</html>
