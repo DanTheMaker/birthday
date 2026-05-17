@@ -3,236 +3,275 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dan's Birthday</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <title>BIRTHDAY.EXE</title>
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: 'Inter', sans-serif;
-      background: #f5e6c8;
-      color: #2c2c2c;
+      font-family: 'VT323', 'Courier New', monospace;
+      background: #000;
+      color: #00ff41;
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
+      font-size: 22px;
+      line-height: 1.4;
+      text-shadow: 0 0 6px rgba(0, 255, 65, 0.4);
       overflow-x: hidden;
     }
 
-    /* Hero */
-    .hero {
-      background: linear-gradient(160deg, #3a9bd5 0%, #1a6fa3 50%, #f97316 100%);
-      color: #fff;
-      text-align: center;
-      padding: 80px 24px 120px;
-      position: relative;
+    /* CRT scanlines */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        transparent 3px,
+        rgba(0, 0, 0, 0.18) 3px,
+        rgba(0, 0, 0, 0.18) 4px
+      );
+      pointer-events: none;
+      z-index: 9999;
     }
 
-    .hero h1 {
-      font-family: 'Pacifico', cursive;
-      font-size: clamp(2.4rem, 8vw, 5rem);
-      text-shadow: 2px 4px 12px rgba(0,0,0,0.25);
-      margin-bottom: 12px;
+    /* Faint CRT vignette */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.5) 100%);
+      pointer-events: none;
+      z-index: 9998;
     }
 
-    .hero .subtitle {
-      font-size: clamp(1rem, 3vw, 1.4rem);
-      opacity: 0.92;
-      letter-spacing: 0.02em;
+    .screen {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 12px 16px 24px;
     }
 
-    /* Wave divider */
-    .wave {
-      display: block;
-      width: 100%;
-      overflow: hidden;
-      line-height: 0;
-      margin-top: -2px;
-    }
-    .wave svg { display: block; width: 100%; height: 80px; }
-
-    /* Main content */
-    main {
-      flex: 1;
+    /* DOS-style title bar */
+    .dos-titlebar {
+      background: #00aa2a;
+      color: #000;
+      text-shadow: none;
+      padding: 3px 10px;
+      font-size: 20px;
       display: flex;
-      flex-direction: column;
+      justify-content: space-between;
       align-items: center;
-      padding: 40px 24px 60px;
-      gap: 32px;
-    }
-
-    /* Details card */
-    .card {
-      background: #fff;
-      border-radius: 20px;
-      padding: 36px 40px;
-      max-width: 480px;
-      width: 100%;
-      box-shadow: 0 8px 30px rgba(58,155,213,0.15);
-      border-top: 5px solid #3a9bd5;
-      text-align: center;
-    }
-
-    .card .detail-row {
-      display: flex;
-      align-items: center;
-      gap: 14px;
       margin-bottom: 20px;
-      font-size: 1.1rem;
+      letter-spacing: 0.5px;
     }
-    .card .detail-row:last-child { margin-bottom: 0; }
-    .card .icon {
-      font-size: 1.6rem;
-      flex-shrink: 0;
+    .dos-titlebar .win-btns { letter-spacing: 4px; }
+
+    /* Boot sequence text */
+    .boot { color: #007a1f; font-size: 18px; margin-bottom: 18px; }
+    .boot .ok { color: #00ff41; }
+
+    /* Progress bar */
+    .progress { color: #00aa2a; font-size: 18px; margin: 2px 0; }
+
+    /* Double-border box (CSS double border style) */
+    .dos-box {
+      border: 3px double #00ff41;
+      padding: 14px 20px;
+      margin: 16px 0;
     }
-    .card .label { font-weight: 600; color: #1a6fa3; min-width: 60px; text-align: left; }
-    .card .value { text-align: left; }
+
+    /* Single-border box */
+    .dos-box-single {
+      border: 1px solid #00aa2a;
+      padding: 12px 20px;
+      margin: 16px 0;
+    }
+
+    .box-header {
+      color: #fff;
+      text-shadow: 0 0 8px rgba(255,255,255,0.6);
+      font-size: 26px;
+      text-align: center;
+      margin-bottom: 6px;
+      letter-spacing: 1px;
+    }
+
+    .box-divider {
+      color: #005a14;
+      margin: 8px 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    /* Detail rows */
+    .detail-row {
+      display: flex;
+      gap: 0;
+      padding: 3px 0;
+      font-size: 22px;
+    }
+    .detail-label { color: #aaffaa; min-width: 100px; }
+    .detail-sep   { color: #007a1f; min-width: 20px; }
+    .detail-val   { color: #fff; text-shadow: 0 0 6px rgba(255,255,255,0.4); }
 
     /* Tagline */
     .tagline {
-      font-family: 'Pacifico', cursive;
-      font-size: clamp(1.4rem, 5vw, 2.2rem);
-      color: #f97316;
+      color: #ffff00;
+      text-shadow: 0 0 10px rgba(255,255,0,0.7);
       text-align: center;
-      text-shadow: 1px 2px 6px rgba(0,0,0,0.08);
+      font-size: 24px;
+      margin: 6px 0;
     }
 
-    /* Registry button */
-    .registry-btn {
+    /* DOS button */
+    .dos-btn {
       display: inline-block;
-      background: #3a9bd5;
-      color: #fff;
-      font-family: 'Inter', sans-serif;
-      font-weight: 600;
-      font-size: 1rem;
-      padding: 14px 32px;
-      border-radius: 50px;
+      background: #00aa2a;
+      color: #000;
+      text-shadow: none;
+      padding: 4px 24px;
+      font-family: 'VT323', monospace;
+      font-size: 22px;
       text-decoration: none;
-      box-shadow: 0 4px 16px rgba(58,155,213,0.4);
-      transition: background 0.2s, transform 0.15s;
+      border: 2px solid #00ff41;
+      border-bottom-color: #004a10;
+      border-right-color: #004a10;
+      transition: filter 0.1s;
+      letter-spacing: 1px;
     }
-    .registry-btn:hover { background: #1a6fa3; transform: translateY(-2px); }
-
-    /* Bottom waves */
-    .wave-footer {
-      position: relative;
-      height: 120px;
-      overflow: hidden;
-      margin-top: auto;
+    .dos-btn:hover {
+      filter: brightness(1.3);
+      color: #000;
     }
-    .wave-footer svg {
-      position: absolute;
-      bottom: 0;
-      width: 200%;
-      animation: wave-slide 6s linear infinite;
-    }
-    .wave-footer svg.wave2 {
-      opacity: 0.5;
-      animation-duration: 9s;
-      animation-direction: reverse;
-    }
-    @keyframes wave-slide {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
+    .dos-btn:active {
+      border-top-color: #004a10;
+      border-left-color: #004a10;
+      border-bottom-color: #00ff41;
+      border-right-color: #00ff41;
     }
 
-    footer {
-      background: #1a6fa3;
-      color: #e0f0ff;
-      text-align: center;
-      padding: 18px 24px;
-      font-family: 'Pacifico', cursive;
-      font-size: 1.1rem;
+    .center { text-align: center; }
+
+    /* Prompt */
+    .prompt-line { margin-top: 24px; color: #007a1f; font-size: 20px; }
+    .cursor::after { content: '█'; animation: blink 1s step-end infinite; color: #00ff41; }
+
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    /* Status / menu bar */
+    .status-bar {
+      background: #00aa2a;
+      color: #000;
+      text-shadow: none;
+      padding: 3px 10px;
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 18px;
     }
 
-    /* Confetti canvas */
-    #confetti { position: fixed; top: 0; left: 0; pointer-events: none; z-index: 999; }
+    #confetti {
+      position: fixed;
+      top: 0; left: 0;
+      pointer-events: none;
+      z-index: 997;
+    }
   </style>
 </head>
 <body>
 
 <canvas id="confetti"></canvas>
 
-<header class="hero">
-  <h1>Dan's Birthday!</h1>
-  <p class="subtitle">You're invited — come celebrate</p>
-</header>
+<div class="screen">
 
-<div class="wave">
-  <svg viewBox="0 0 1200 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M0,40 C200,80 400,0 600,40 C800,80 1000,0 1200,40 L1200,80 L0,80 Z" fill="#f5e6c8"/>
-  </svg>
-</div>
-
-<main>
-  <div class="card">
-    <div class="detail-row">
-      <span class="icon">📅</span>
-      <span class="label">Date</span>
-      <span class="value">Thursday 21 May</span>
-    </div>
-    <div class="detail-row">
-      <span class="icon">🕖</span>
-      <span class="label">Time</span>
-      <span class="value">7pm onwards</span>
-    </div>
-    <div class="detail-row">
-      <span class="icon">📍</span>
-      <span class="label">Venue</span>
-      <span class="value">Bar 34</span>
-    </div>
+  <div class="dos-titlebar">
+    <span>▌ BIRTHDAY.EXE ▐</span>
+    <span class="win-btns">[─][□][✕]</span>
   </div>
 
-  <p class="tagline">Drinks will be flowing!</p>
+  <div class="boot">
+    C:\&gt; BIRTHDAY.EXE /PARTY<br>
+    Checking memory................. <span class="ok">640K OK</span><br>
+    Loading party module............ <span class="ok">OK</span><br>
+    Initializing confetti........... <span class="ok">OK</span><br>
+    Verifying guest list............ <span class="ok">OK</span>
+  </div>
 
-  <a href="registry.html" class="registry-btn">View Gift Registry →</a>
-</main>
+  <div class="dos-box">
+    <div class="box-header">★★★  DAN'S BIRTHDAY PARTY  ★★★</div>
+    <div class="box-divider">════════════════════════════════════════════════════════════</div>
+    <div class="center" style="color:#aaffaa; font-size:20px; margin-bottom:10px;">
+      *** YOU ARE CORDIALLY INVITED ***
+    </div>
 
-<div class="wave-footer">
-  <svg viewBox="0 0 1440 120" xmlns="http://www.w3.org/2000/svg">
-    <path d="M0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,120 L0,120 Z" fill="#3a9bd5" opacity="0.6"/>
-  </svg>
-  <svg class="wave2" viewBox="0 0 1440 120" xmlns="http://www.w3.org/2000/svg">
-    <path d="M0,60 C240,0 480,120 720,60 C960,0 1200,120 1440,60 L1440,120 L0,120 Z" fill="#1a6fa3" opacity="0.4"/>
-  </svg>
+    <div class="dos-box-single">
+      <div class="detail-row">
+        <span class="detail-label">DATE</span>
+        <span class="detail-sep">.....&nbsp;</span>
+        <span class="detail-val">Thursday 21 May</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">TIME</span>
+        <span class="detail-sep">.....&nbsp;</span>
+        <span class="detail-val">7pm onwards</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">VENUE</span>
+        <span class="detail-sep">.....&nbsp;</span>
+        <span class="detail-val">Bar 34</span>
+      </div>
+    </div>
+
+    <div class="box-divider">════════════════════════════════════════════════════════════</div>
+    <div class="tagline">*** DRINKS WILL BE FLOWING! ***</div>
+  </div>
+
+  <div class="center" style="margin: 20px 0;">
+    <a href="registry.html" class="dos-btn">[ VIEW GIFT REGISTRY ]</a>
+  </div>
+
+  <div class="prompt-line">
+    C:\BIRTHDAY&gt;&nbsp;<span class="cursor"></span>
+  </div>
+
+  <div class="status-bar">
+    <span>F1=HELP</span>
+    <span>F3=REGISTRY</span>
+    <span>F5=REFRESH</span>
+    <span>ALT+F4=EXIT</span>
+  </div>
+
 </div>
 
-<footer>See you there 🤙</footer>
-
 <script>
-  // Confetti burst on load
   const canvas = document.getElementById('confetti');
   const ctx = canvas.getContext('2d');
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
 
-  const colors = ['#3a9bd5','#f97316','#f5e6c8','#fff','#1a6fa3','#ffd700'];
+  const chars = ['*', '+', '#', '0', '1', '@', '%', '!', '$', '&'];
+  const colors = ['#00ff41', '#aaffaa', '#ffffff', '#ffff00', '#00cc33'];
   const pieces = Array.from({length: 120}, () => ({
     x: Math.random() * canvas.width,
-    y: Math.random() * -canvas.height,
-    r: Math.random() * 7 + 3,
-    c: colors[Math.floor(Math.random() * colors.length)],
-    vx: (Math.random() - 0.5) * 3,
-    vy: Math.random() * 4 + 2,
-    angle: Math.random() * Math.PI * 2,
-    spin: (Math.random() - 0.5) * 0.2,
+    y: Math.random() * -canvas.height * 0.6,
+    char: chars[Math.floor(Math.random() * chars.length)],
+    color: colors[Math.floor(Math.random() * colors.length)],
+    vy: Math.random() * 2.5 + 1,
+    vx: (Math.random() - 0.5) * 2,
     alpha: 1
   }));
 
   let frame = 0;
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.font = 'bold 16px monospace';
     pieces.forEach(p => {
-      p.x += p.vx; p.y += p.vy; p.angle += p.spin;
-      if (frame > 80) p.alpha -= 0.012;
-      ctx.save();
+      p.x += p.vx;
+      p.y += p.vy;
+      if (frame > 80) p.alpha -= 0.014;
       ctx.globalAlpha = Math.max(0, p.alpha);
-      ctx.translate(p.x, p.y);
-      ctx.rotate(p.angle);
-      ctx.fillStyle = p.c;
-      ctx.fillRect(-p.r, -p.r / 2, p.r * 2, p.r);
-      ctx.restore();
+      ctx.fillStyle = p.color;
+      ctx.fillText(p.char, p.x, p.y);
     });
     frame++;
     if (pieces.some(p => p.alpha > 0)) requestAnimationFrame(draw);
@@ -240,5 +279,6 @@
   }
   draw();
 </script>
+
 </body>
 </html>
